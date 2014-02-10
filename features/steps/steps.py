@@ -91,3 +91,10 @@ def step_impl(context):
 @then('notification is closed')
 def step_impl(context):
     assert context.notification.return_value.close.called
+
+
+@then('notification schedule is')
+def step_impl(context):
+    schedule = dict((row['message'], int(row['interval']))
+                    for row in context.table)
+    assert schedule.items() == context.service.schedule.items()

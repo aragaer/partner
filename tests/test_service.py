@@ -73,3 +73,8 @@ class ServiceTest(TestCase):
 
         scheduler.schedule_at.assert_called_once_with(300,
             service.show_notification, "Message")
+
+    def test_should_have_default_schedule(self):
+        service = PartnerService(notifier=Mock(), scheduler=Mock())
+
+        self.assertEqual(service.schedule.items(), {'Ping': 300}.items())

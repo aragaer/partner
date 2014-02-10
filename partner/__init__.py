@@ -12,6 +12,7 @@ class PartnerService(object):
 
     period = 300
     _delay = 1
+    schedule = {'Ping': 300}
 
     def __init__(self, notifier=None, scheduler=None):
         if notifier is None:
