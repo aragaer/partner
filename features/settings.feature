@@ -10,7 +10,6 @@ Feature: Configurable notifications
       | message | interval |
       | Ping    | 300      |
 
-  @wip
   Scenario Outline: Custom message/interval
     Given the notification schedule is:
         | message   | interval   |

@@ -87,3 +87,5 @@ def after_scenario(context, scenario):
     for mock in [context.notification,
                  context.notification.return_value.show]:
         mock.reset_mock()
+
+    context.scheduler.events = []
