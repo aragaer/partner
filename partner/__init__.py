@@ -11,7 +11,6 @@ class PartnerService(object):
     """
 
     period = 300
-    _delay = 1
     schedule = {'Ping': 300}
 
     def __init__(self, notifier=None, scheduler=None):
@@ -23,20 +22,6 @@ class PartnerService(object):
         self.scheduler = scheduler
         self.scheduler.schedule_at(300, self.show_notification, "Ping")
         self.notifier.show_notification("Hello")
-
-    @property
-    def delay(self):
-        return self._delay
-
-    @delay.setter
-    def delay(self, value):
-        """
-            Set the delay to next notification.
-        """
-        if value == 0:
-            value = self.period
-            self.show_notification()
-        self._delay = value
 
     def show_notification(self, message):
         """
