@@ -19,6 +19,7 @@ Feature: Configurable notifications
       And notification will appear in less than <interval> seconds
      When <interval> seconds pass
      Then '<message>' message is shown once
+      And notification will appear in less than <interval> seconds
 
     Examples: Custom message:
       | message     | interval  |
