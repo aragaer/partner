@@ -16,9 +16,10 @@ Feature: Configurable notifications
         | message   | interval   |
         | <message> | <interval> |
       And the service is running
-     Then notification will appear in less than <interval> seconds
+     Then a greeting notification is shown once
+      And notification will appear in less than <interval> seconds
      When <interval> seconds pass
-     Then '<message>' message is shown
+     Then '<message>' message is shown once
 
     Examples: Custom message:
       | message     | interval  |

@@ -87,8 +87,9 @@ def step_impl(context):
 
 @then('a greeting notification is shown once')
 def step_impl(context):
-    context.notification.assert_called_once_with("Hello", None, None)
-    context.notification.return_value.show.assert_called_once_with()
+    context.execute_steps('''
+        Then 'Hello' message is shown once
+    ''')
 
 
 @then('notification is closed')
@@ -110,6 +111,9 @@ def step_impl(context):
     context.service_kwargs = {'schedule': schedule}
 
 
-@then('\'Howdy\' message is shown')
-def step_impl(context):
-    assert False
+@then('\'{message}\' message is shown once')
+def step_impl(context, message):
+    context.notification.assert_called_once_with(message, None, None)
+    context.notification.return_value.show.assert_called_once_with()
+    context.notification.reset_mock()
+    context.notification.return_value.show.reset_mock()
