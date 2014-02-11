@@ -16,8 +16,8 @@ Feature: Configurable notifications
         | message   | interval   |
         | <message> | <interval> |
       And the service is running
-     Then next notification will appear in less than <interval> seconds
-     When <interval> seconds passes
+     Then notification will appear in less than <interval> seconds
+     When <interval> seconds pass
      Then '<message>' message is shown
 
     Examples: Custom message:

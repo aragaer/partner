@@ -50,15 +50,18 @@ def step_impl(context, time):
     context.scheduler.advance_time(delta.total_seconds())
 
 
-@then('notification will appear in {minutes} minutes')
-def step_impl(context, minutes):
+@then('notification will appear in {time}')
+def step_impl(context, time):
     interval = context.scheduler.get_timeout_for(
         lambda event: event.callback == context.service.show_notification)
     assert interval is not None
-    allow_less = minutes.startswith('less than')
+    allow_less = time.startswith('less than')
     if allow_less:
-        minutes = minutes[10:]
-    timeout = int(minutes) * 60
+        time = time[10:]
+    components = time.split()
+    delta = timedelta(**dict(
+        (c, int(t)) for c, t in zip(components[1::2], components[::2])))
+    timeout = delta.total_seconds()
     if allow_less:
         assert interval <= timeout
     else:
@@ -98,3 +101,15 @@ def step_impl(context):
     schedule = dict((row['message'], int(row['interval']))
                     for row in context.table)
     assert schedule.items() == context.service.schedule.items()
+
+
+@given('the notification schedule is')
+def step_impl(context):
+    schedule = dict((row['message'], int(row['interval']))
+                    for row in context.table)
+    context.service_kwargs = {'schedule': schedule}
+
+
+@then('\'Howdy\' message is shown')
+def step_impl(context):
+    assert False
