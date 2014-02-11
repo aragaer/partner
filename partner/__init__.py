@@ -22,7 +22,8 @@ class PartnerService(object):
         if schedule is not None:
             self.schedule = schedule
         self.scheduler = scheduler
-        self.scheduler.schedule_at(300, self.show_notification, "Ping")
+        for message, interval in self.schedule.items():
+            self.scheduler.schedule_at(interval, self.show_notification, message)
         self.notifier.show_notification("Hello")
 
     def show_notification(self, message):

@@ -84,3 +84,11 @@ class ServiceTest(TestCase):
                                  schedule={'Howdy': 300})
 
         self.assertEqual(service.schedule.items(), {'Howdy': 300}.items())
+
+    def test_should_show_notifications_on_schedule(self):
+        scheduler = Mock()
+        service = PartnerService(notifier=Mock(), scheduler=scheduler,
+                                 schedule={'Howdy': 240})
+
+        scheduler.schedule_at.assert_called_once_with(
+                240, service.show_notification, 'Howdy')
