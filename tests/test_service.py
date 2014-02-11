@@ -9,17 +9,6 @@ from partner import PartnerService
 
 class ServiceTest(TestCase):
 
-    def test_should_renew_notification_timer(self):
-        scheduler = Mock()
-        service = PartnerService(scheduler=scheduler, notifier=Mock())
-        for period in [300, 600]:
-            scheduler.schedule_at.reset_mock()
-            service.period = period
-            service.show_notification("Something")
-
-            scheduler.schedule_at.assert_called_once_with(period,
-                service.show_notification, "Something")
-
     def test_should_call_notifier(self):
         notifier = Mock()
         service = PartnerService(notifier=notifier, scheduler=Mock())
@@ -64,16 +53,6 @@ class ServiceTest(TestCase):
         notifier.show_notification.assert_called_once_with("Hello")
         self.assertFalse(mock_show.called)
 
-    def test_should_have_5_minutes_default_period(self):
-        scheduler=Mock()
-        service = PartnerService(notifier=Mock(), scheduler=scheduler)
-        scheduler.schedule_at.reset_mock()
-
-        service.show_notification("Message")
-
-        scheduler.schedule_at.assert_called_once_with(300,
-            service.show_notification, "Message")
-
     def test_should_have_default_schedule(self):
         service = PartnerService(notifier=Mock(), scheduler=Mock())
 
@@ -89,6 +68,17 @@ class ServiceTest(TestCase):
         scheduler = Mock()
         service = PartnerService(notifier=Mock(), scheduler=scheduler,
                                  schedule={'Howdy': 240})
+
+        scheduler.schedule_at.assert_called_once_with(
+                240, service.show_notification, 'Howdy')
+
+    def test_should_reschedule_notifications_according_to_schedule(self):
+        scheduler = Mock()
+        service = PartnerService(notifier=Mock(), scheduler=scheduler,
+                                 schedule={'Howdy': 240})
+        scheduler.schedule_at.reset_mock()
+
+        service.show_notification('Howdy')
 
         scheduler.schedule_at.assert_called_once_with(
                 240, service.show_notification, 'Howdy')

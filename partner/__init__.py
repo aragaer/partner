@@ -10,7 +10,6 @@ class PartnerService(object):
         Main service for the class.
     """
 
-    period = 300
     schedule = {'Ping': 300}
 
     def __init__(self, notifier=None, scheduler=None, schedule=None):
@@ -31,9 +30,10 @@ class PartnerService(object):
             Say something to the lone developer.
         """
         self.notifier.show_notification(message)
-        self.scheduler.schedule_at(self.period,
-                                   self.show_notification,
-                                   message)
+        if message in self.schedule:
+            self.scheduler.schedule_at(self.schedule[message],
+                                       self.show_notification,
+                                       message)
 
 
 class NotifyNotifier(object):
