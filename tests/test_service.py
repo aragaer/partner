@@ -78,3 +78,9 @@ class ServiceTest(TestCase):
         service = PartnerService(notifier=Mock(), scheduler=Mock())
 
         self.assertEqual(service.schedule.items(), {'Ping': 300}.items())
+
+    def test_should_accept_schedule_in_constructor(self):
+        service = PartnerService(notifier=Mock(), scheduler=Mock(),
+                                 schedule={'Howdy': 300})
+
+        self.assertEqual(service.schedule.items(), {'Howdy': 300}.items())

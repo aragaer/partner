@@ -8,7 +8,8 @@ from partner import PartnerService
 
 @given('the service is running')
 def step_impl(context):
-    context.service = PartnerService()
+    kwargs = context.service_kwargs if 'service_kwargs' in context else {}
+    context.service = PartnerService(**kwargs)
 
 
 @when('it is time to show notification')

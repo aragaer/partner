@@ -13,12 +13,14 @@ class PartnerService(object):
     period = 300
     schedule = {'Ping': 300}
 
-    def __init__(self, notifier=None, scheduler=None):
+    def __init__(self, notifier=None, scheduler=None, schedule=None):
         if notifier is None:
             notifier = NotifyNotifier()
         self.notifier = notifier
         if scheduler is None:
             scheduler = GLibScheduler()
+        if schedule is not None:
+            self.schedule = schedule
         self.scheduler = scheduler
         self.scheduler.schedule_at(300, self.show_notification, "Ping")
         self.notifier.show_notification("Hello")
