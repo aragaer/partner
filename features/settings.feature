@@ -9,3 +9,29 @@ Feature: Configurable notifications
      Then notification schedule is:
       | message | interval |
       | Ping    | 300      |
+
+  @wip
+  Scenario Outline: Custom message/interval
+    Given the notification schedule is:
+        | message   | interval   |
+        | <message> | <interval> |
+      And the service is running
+     Then next notification will appear in less than <interval> seconds
+     When <interval> seconds passes
+     Then '<message>' message is shown
+
+    Examples: Custom message:
+      | message     | interval  |
+      | Howdy       | 300       |
+      | Missed me?  | 300       |
+
+    Examples: Custom interval:
+      | message     | interval  |
+      | Ping        | 180       |
+      | Ping        | 240       |
+      | Ping        | 750       |
+
+    Examples: Custom both:
+      | message         | interval  |
+      | Howdy           | 350       |
+      | Go get some tea | 600       |
