@@ -1,7 +1,7 @@
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 from datetime import timedelta
-from unittest.mock import DEFAULT, MagicMock, Mock, patch
+from unittest.mock import DEFAULT, Mock, patch
 
 from partner import PartnerService
 

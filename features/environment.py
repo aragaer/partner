@@ -2,7 +2,7 @@
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
 from types import SimpleNamespace
-from unittest.mock import DEFAULT, MagicMock, Mock, patch
+from unittest.mock import DEFAULT, Mock, patch
 
 
 class MockScheduler(object):
@@ -83,7 +83,7 @@ def after_all(context):
         patcher.stop()
 
 
-def after_scenario(context, scenario):
+def after_scenario(context, _):
     for mock in [context.notification,
                  context.notification.return_value.show]:
         mock.reset_mock()
